@@ -1,0 +1,10 @@
+带后方触碰传感器的
+rosrun sensor_msg CliffEvent.py
+
+不带后方传感器
+rosrun sensor_msg CliffEvent_withoutback.py
+
+另外
+根据实际情况修改字典 self.serial2msg_dict 中的二进制码,并且分别对应LEFT,RIGHT,FRONT,BACK四种情况
+根据实际情况修改port_ID,port_name
+
