@@ -1,0 +1,9 @@
+<launch>
+  <node pkg="move_base" type="move_base" respawn="false" ns="second_robot" name="second_move_base" output="screen" clear_params="true">
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/costmap_second_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/costmap_second_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/local_second_costmap_params.yaml" command="load" />
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/global_second_costmap_params.yaml" command="load" />
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/base_local_planner_params.yaml" command="load" />
+  </node>
+</launch>

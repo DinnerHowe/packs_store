@@ -1,0 +1,49 @@
+<launch>
+
+ <group ns='first_robot'>
+  <param name="/use_sim_time" value="false" />
+
+  <!-- Load the URDF/Xacro model of our robot -->
+  <arg name="first_urdf_file" default="$(find xacro)/xacro.py '$(find rbx1_description)/urdf/multi_robot/first_turtlebot.urdf.xacro'" />
+   
+  <param name="robot_description" command="$(arg first_urdf_file)" />
+    
+  <node name="first_arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen" clear_params="true">
+   <rosparam file="$(find rbx1_description)/urdf/multi_robot/xacro/fake_first_turtlebot_arbotix.yaml" command="load" />
+   <param name="sim" value="true"/>
+   <param name="port" value="/dev/ttyUSB0"/>
+  </node>
+  
+  <node name="first_robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+      <param name="publish_frequency" type="double" value="20.0" />
+  </node>
+  
+  <node pkg="tf" ns='first_robot' type="static_transform_publisher" name="first_map_odom_broadcaster" args="0 0 0 0 0 0 /first_odom /first_base_footprint 100" />
+  
+ </group>
+
+
+ <group ns='second_robot'>
+  <param name="/use_sim_time" value="false" />
+
+  <!-- Load the URDF/Xacro model of our robot -->
+  <arg name="second_urdf_file" default="$(find xacro)/xacro.py '$(find rbx1_description)/urdf/multi_robot/second_turtlebot.urdf.xacro'" />
+   
+  <param name="robot_description" command="$(arg second_urdf_file)" />
+    
+  <node name="second_arbotix" pkg="arbotix_python" type="arbotix_driver" output="screen" clear_params="true">
+   <rosparam file="$(find rbx1_description)/urdf/multi_robot/xacro/fake_second_turtlebot_arbotix.yaml" command="load" />
+   <param name="sim" value="true"/>
+   <param name="port" value="/dev/ttyUSB0"/>
+  </node>
+  
+  <node name="second_robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+      <param name="publish_frequency" type="double" value="20.0" />
+  </node>
+  
+  <node pkg="tf" ns='second_robot' type="static_transform_publisher" name="second_map_odom_broadcaster" args="0 0 0 0 0 0 /second_odom /second_base_footprint 100" />
+  
+ </group>
+
+
+</launch>

@@ -1,0 +1,13 @@
+<launch>
+ <!--<arg name="number" default="first" />
+ 
+ <group ns="$(arg number)_robot">-->
+  <node pkg="move_base" type="move_base" respawn="false" ns="first_robot" name="first_move_base" output="screen" clear_params="true">
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/costmap_first_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/costmap_first_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/local_first_costmap_params.yaml" command="load" />
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/global_first_costmap_params.yaml" command="load" />
+    <rosparam file="$(find rbx1_nav)/config/fake_multi/base_local_planner_params.yaml" command="load" />
+  </node>
+ <!--</group>-->
+</launch>

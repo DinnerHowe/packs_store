@@ -1,0 +1,43 @@
+<launch>
+ 
+ <!--<group ns='first_robot'>-->
+  <param name="use_sim_time" value="false" />
+  <arg name="map" default="office_map_manual.yaml" />
+  <!-- Run the map server with the desired map -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find rbx1_nav)/maps/$(arg map)"/>
+  
+  <!-- The move_base node -->
+  <include file="$(find rbx1_nav)/launch/fake_multi_first_move_base_amcl.launch" />
+  
+  <!-- Run fake localization compatible with AMCL output -->
+  <node pkg="fake_localization" ns="first_robot"  type="fake_localization" name="first_fake_localization" output="screen">
+   <param name="odom_frame_id" value="first_robot/first_odom" />
+   <param name="global_frame_id" value="first_robot/map" />
+   <param name="base_frame_id" value="first_robot/first_base_link" />
+  </node>
+
+  <!-- For fake localization we need a static transform between /odom and /map -->
+  <node pkg="tf" ns="first_robot" type="static_transform_publisher" name="first_map_odom_broadcaster" args="0 0 0 0 0 0 /map /first_odom 100" />
+ 
+ <!--</group>-->
+
+
+
+ <!--<group ns='second_robot'>-->
+ 
+  <!-- The move_base node -->
+  <include file="$(find rbx1_nav)/launch/fake_multi_second_move_base_amcl.launch" />
+  
+  <!-- Run fake localization compatible with AMCL output -->
+  <node pkg="fake_localization" ns="second_robot" type="fake_localization" name="second_fake_localization" output="screen">
+   <param name="odom_frame_id" value="second_robot/second_odom" />
+   <param name="global_frame_id" value="second_robot/map" />
+   <param name="base_frame_id" value="second_robot/second_base_link" />
+  </node>
+ 
+  <!-- For fake localization we need a static transform between /odom and /map -->
+  <node pkg="tf" ns="second_robot" type="static_transform_publisher" name="second_map_odom_broadcaster" args="0 0 0 0 0 0 /map /second_odom 100" />
+ 
+ <!--</group>-->
+ 
+</launch>
